@@ -143,6 +143,16 @@ GamesVis.prototype.init_visualization = function() {
   // Append groups for game and season separators.
   this.svg_game_markers = this.svg_bg.append('g').attr('id','game_markers');
   this.svg_season_markers = this.svg_bg.append('g').attr('id','season_markers');
+
+  //// Brush.
+
+  // Configure brush.
+  this.brush.x(this.scales.x);
+  this.svg_brush
+      .call(this.brush)
+      .attr('width', this.width)
+      .selectAll('rect')
+        .attr('height', this.timeline_height);
 };
 
 /**
@@ -228,13 +238,9 @@ GamesVis.prototype.on_team_change = function(_new_team) {
 
   //// Brush.
 
-  // Configure brush.
-  this.brush.x(this.scales.x);
-  this.svg_brush
-      .call(this.brush)
-      .attr('width', this.width)
-      .selectAll('rect')
-        .attr('height', this.timeline_height);
+  // Reset brush.
+  this.brush.clear();
+  this.svg_brush.call(this.brush)
 };
 
 /**
