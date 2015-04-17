@@ -33,3 +33,10 @@ GamesVis.prototype.init_visualization = function() {
       });
 
 };
+
+/**
+ *
+ */
+GamesVis.prototype.on_team_change = function() {
+  var that = this;
+};
