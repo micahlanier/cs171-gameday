@@ -1,0 +1,25 @@
+/*
+  Main Page Elements
+*/
+
+/* Fix container size. */
+body div.container { width: 1170px; }
+
+/*
+  Useful Reusable Styles
+*/
+
+/* Custom tooltip appearance. Based on Bootstrap .badge styling. */
+span.viz-tooltip {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px;
+  font-size: .875em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border: 1px solid lightblue;
+  border-radius: 4px;
+  cursor: default;
+}

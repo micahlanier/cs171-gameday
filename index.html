@@ -22,6 +22,11 @@
   <link rel="stylesheet" href="styles/main.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
+  <!-- Visualization styles. -->
+  <link rel="stylesheet" href="styles/games_vis.css" />
+  <link rel="stylesheet" href="styles/pregame_vis.css" />
+  <link rel="stylesheet" href="styles/postgame_vis.css" />
+
   <!-- Main controller and visualization classes. -->
   <script src="js/main.js"></script>
   <script src="js/games_vis.js"></script>
@@ -46,7 +51,9 @@
   <!-- <div class="jumbotron">
     <p>Text here discussing the project.</p>
   </div> -->
-  <p><big>The MBTA facilitates XXX daily trips in the Boston area every day, and sees large spikes in demand during sporting events and other games. Select a team and sets of games below to see how station entries change around game time.</big></p>
+  <p><big>The MBTA facilitates XXX daily trips in the Boston area every day, and sees large spikes in demand during sporting events and other games.<br />Select a team and sets of games below to see how <span class="viz-tooltip" data-toggle="tooltip" data-original-title="Counts of swipes from riders who enter each station, available in 15-minute intervals.">station entries</span> change around game time.</big></p>
+
+  <hr />
 
   <!-- Team selection component. -->
   <div class="btn-group btn-group-justified" data-toggle="buttons">
@@ -61,38 +68,43 @@
     </label>
   </div>
 
-  <!-- Timeline component. -->
-  <h2 id="games_title"><span>Games</span> <small>Select games here or with the buttons below.</small></h2>
-  <div class="row">
-    <div id="vis_games" class="col-md-12"></div>
-  </div>
+  <!-- Entire visualization container. Must be unhidden after the user takes an action. -->
+  <div id="visualization_container" style="display: none">
 
-  <!-- Additional filters component. -->
-  <div class="row" style="padding-top:20px;">
-    <big>Special games:</big>
-    <button type="button" class="btn btn-danger">Weekends</button>
-    <button type="button" class="btn btn-danger">Weekdays</button>
-    <button type="button" class="btn btn-danger">Early Games</button>
-    <button type="button" class="btn btn-danger">Late Games</button>
-    <button type="button" class="btn btn-danger">Playoffs</button>
-    <button type="button" class="btn btn-danger">Yankees</button>
-  </div>
-
-  <hr />
-
-  <!-- Container for two subplots. -->
-  <div class="row">
-
-    <!-- Pregame entries container. -->
-    <div class="col-md-6">
-      <h2>Pregame Traffic by Line</h2>
-      <div id="vis_pregame"></div>
+    <!-- Timeline component. -->
+    <h2 id="games_title"><span>Games</span> <small>Select a game range or use the buttons below.</small></h2>
+    <div class="row">
+      <div id="vis_games" class="col-md-12"></div>
     </div>
 
-    <!-- Postgame entries container. -->
-    <div class="col-md-6">
-      <h2>Postgame Traffic at Venue</h2>
-      <div id="vis_postgame"></div>
+    <!-- Additional filters component. -->
+    <p style="padding-top:20px;">
+      <big>Special games:</big>
+      <button type="button" class="btn btn-danger">Weekends</button>
+      <button type="button" class="btn btn-danger">Weekdays</button>
+      <button type="button" class="btn btn-danger">Early Games</button>
+      <button type="button" class="btn btn-danger">Late Games</button>
+      <button type="button" class="btn btn-danger">Playoffs</button>
+      <button type="button" class="btn btn-danger">Yankees</button>
+    </p>
+
+    <hr />
+
+    <!-- Container for two subplots. -->
+    <div class="row">
+
+      <!-- Pregame entries container. -->
+      <div class="col-md-6">
+        <h2>Pregame Traffic by Line</h2>
+        <div id="vis_pregame"></div>
+      </div>
+
+      <!-- Postgame entries container. -->
+      <div class="col-md-6">
+        <h2>Postgame Traffic at Venue</h2>
+        <div id="vis_postgame"></div>
+      </div>
+
     </div>
 
   </div>

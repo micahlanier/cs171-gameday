@@ -1,0 +1,27 @@
+/*
+  Main Display Elements
+*/
+
+/* Circles. */
+#games_vis #game_markers circle { stroke-width: .5px; stroke: black; }
+
+/*
+  Brushing
+*/
+#games_vis .brush { fill: darkgrey; fill-opacity: .5; pointer-events: none; }
+#games_vis .brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+/*
+  Background Elements
+*/
+
+/* Timeline. */
+#games_vis #games_timeline_bg { fill: lightgray; }
+
+/* Season markers. */
+#games_vis #season_markers .season_marker_group line { stroke: darkgray; }
+#games_vis #season_markers .season_marker_group text { fill: darkgray; alignment-baseline: middle; font-size: .75em; font-family: verdana, sans-serif; }
