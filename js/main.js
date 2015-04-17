@@ -50,10 +50,11 @@ $(function() {
     })
 
     // Handle brush events.
-    $(event_handler).bind('selection_changed', function(event, event_data) {
-      // Container for brush extent information.
-      var extent;
-      // Other stuff here.
+    $(event_handler).bind('game_selection_changed', function(event, game_ids) {
+      // Object updates.
+      games_vis.highlight_games(game_ids);
+      pregame_vis.on_game_selection_change(game_ids);
+      // postgame_vis.on_game_selection_change(game_ids);
     });
 
     // Set up tooltips.

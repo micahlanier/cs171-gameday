@@ -22,6 +22,14 @@ PregameVis = function(_parent_element, _context, _pregame_data) {
 /**
  *
  */
+PregameVis.prototype.init_visualization = function() {
+  var that = this;
+
+};
+
+/**
+ *
+ */
 PregameVis.prototype.on_team_change = function(_new_team) {
   var that = this;
 
@@ -32,7 +40,7 @@ PregameVis.prototype.on_team_change = function(_new_team) {
 /**
  *
  */
-PregameVis.prototype.init_visualization = function() {
+PregameVis.prototype.on_game_selection_change = function(_game_ids) {
   var that = this;
 
-}
+};

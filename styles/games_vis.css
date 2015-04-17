@@ -4,12 +4,13 @@
 
 /* Circles. */
 #games_vis #game_markers circle { stroke-width: .5px; stroke: black; }
+#games_vis #game_markers circle.unselected { opacity: 0.1; }
 
 /*
   Brushing
 */
-#games_vis .brush { fill: darkgrey; pointer-events: none; }
-#games_vis .brush .extent { stroke: #fff; fill-opacity: .625; shape-rendering: crispEdges; }
+#games_vis .brush { fill: black; pointer-events: none; }
+#games_vis .brush .extent { stroke: #fff; fill-opacity: .2; shape-rendering: crispEdges; }
 
 /*
   Background Elements

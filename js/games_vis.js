@@ -28,17 +28,18 @@ GamesVis = function(_parent_element, _context, _event_handler, _games) {
   // Scales.
   this.scales = {
     'time': d3.scale.linear().range([this.timeline_margin.top, this.timeline_height-this.timeline_margin.bottom]),
-    'x': d3.scale.linear().range([0,this.width])
+    'brush_x': d3.scale.linear().range([0,this.width]).domain([0,this.width])
   };
 
   // Brush.
   this.brush = d3.svg.brush()
     .on('brush', function() {
       that.brushed();
-    });
+    })
+    .x(this.scales.brush_x);;
 
   // Placeholders for later settings.
-  this.team;
+  this.team, this.highlighted_game_ids;
 
   //// Preprocessing
 
@@ -146,8 +147,7 @@ GamesVis.prototype.init_visualization = function() {
 
   //// Brush.
 
-  // Configure brush.
-  this.brush.x(this.scales.x);
+  // Configure and display brush.
   this.svg_brush
       .call(this.brush)
       .attr('width', this.width)
@@ -247,6 +247,35 @@ GamesVis.prototype.on_team_change = function(_new_team) {
  *
  */
 GamesVis.prototype.brushed = function() {
-  // Do stuff here with this.brush.extent() and this.brush.empty().
-  // Will eventually trigger the event handler for a selection change.
+  // Construct a game filtering function.
+  // Make it return true for all if no selection.
+  var filter_function;
+  if (this.brush.empty()) {
+    filter_function = function (d) { return true; };
+  } else {
+    var extents = this.brush.extent();
+    filter_function = function (d) { return (d.timeline_x >= extents[0] && d.timeline_x <= extents[1]); };
+  }
+  // Call filtering function.
+  this.filter_games(filter_function);
+}
+
+/**
+ *
+ */
+GamesVis.prototype.filter_games = function (filter) {
+  // Get game IDs.
+  var selected_game_ids = this.games[this.team].filter(filter).map(function (d) { return d.game_id; });
+  // Trigger event.
+  $(this.event_handler).trigger('game_selection_changed', [selected_game_ids]);
+}
+
+
+/**
+ *
+ */
+GamesVis.prototype.highlight_games = function(game_ids) {
+  // Get circle selection and adjust opacity.
+  this.svg_game_markers.selectAll('circle')
+      .style('opacity',function (d) { return (game_ids.indexOf(d.game_id) == -1) ? .3 : 1; })
 }
