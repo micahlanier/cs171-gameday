@@ -8,12 +8,8 @@
 /*
   Brushing
 */
-#games_vis .brush { fill: darkgrey; fill-opacity: .5; pointer-events: none; }
-#games_vis .brush .extent {
-  stroke: #fff;
-  fill-opacity: .125;
-  shape-rendering: crispEdges;
-}
+#games_vis .brush { fill: darkgrey; pointer-events: none; }
+#games_vis .brush .extent { stroke: #fff; fill-opacity: .625; shape-rendering: crispEdges; }
 
 /*
   Background Elements

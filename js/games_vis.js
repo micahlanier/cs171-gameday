@@ -2,6 +2,8 @@
  * Constructor for games visualization object.
  */
 GamesVis = function(_parent_element, _context, _event_handler, _games) {
+  var that = this;
+
   //// Primary settings.
 
   // Visual settings.
@@ -26,13 +28,13 @@ GamesVis = function(_parent_element, _context, _event_handler, _games) {
   // Scales.
   this.scales = {
     'time': d3.scale.linear().range([this.timeline_margin.top, this.timeline_height-this.timeline_margin.bottom]),
-    'x': d3.scale.linear().domain([0,this.width])
+    'x': d3.scale.linear().range([0,this.width])
   };
 
   // Brush.
   this.brush = d3.svg.brush()
     .on('brush', function() {
-      $(this.event_handler).trigger('games_brushed');
+      that.brushed();
     });
 
   // Placeholders for later settings.
@@ -234,3 +236,11 @@ GamesVis.prototype.on_team_change = function(_new_team) {
       .selectAll('rect')
         .attr('height', this.timeline_height);
 };
+
+/**
+ *
+ */
+GamesVis.prototype.brushed = function() {
+  // Do stuff here with this.brush.extent() and this.brush.empty().
+  // Will eventually trigger the event handler for a selection change.
+}
