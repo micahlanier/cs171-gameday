@@ -22,8 +22,11 @@
   <link rel="stylesheet" href="styles/main.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
-  <!-- Visualization JS. -->
-  <!-- TODO -->
+  <!-- Main controller and visualization classes. -->
+  <script src="js/main.js"></script>
+  <script src="js/games_vis.js"></script>
+  <script src="js/pregame_vis.js"></script>
+  <script src="js/postgame_vis.js"></script>
 
   <!-- IE fixes. -->
   <!--[if lt IE 9]>
@@ -60,7 +63,9 @@
   <!-- Timeline component. -->
   <h2>Games</h2>
   <p>Select a range of games here or special groups from the buttons below.</p>
-  <div class="row" style="height: 100px; background: lightgray; text-align: center;">Timeline display here.</div>
+  <div class="row">
+    <div id="vis_games" class="col-md-12"></div>
+  </div>
 
   <!-- Additional filters component. -->
   <div class="row" style="padding-top:20px;">
@@ -80,18 +85,14 @@
 
     <!-- Pregame entries container. -->
     <div class="col-md-6">
-      <h3>Pregame Traffic Line</h3>
-      <div style="height: 300px; background: lightgray; text-align: center;">
-        Chart here.
-      </div>
+      <h3>Pregame Traffic by Line</h3>
+      <div id="vis_pregame"></div>
     </div>
 
     <!-- Postgame entries container. -->
     <div class="col-md-6">
       <h3>Postgame Traffic at Venue</h3>
-      <div style="height: 300px; background: lightgray; text-align: center;">
-        Chart here.
-      </div>
+      <div id="vis_postgame"></div>
     </div>
 
   </div>
