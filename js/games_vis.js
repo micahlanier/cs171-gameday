@@ -224,7 +224,7 @@ GamesVis.prototype.on_team_change = function(_new_team) {
     });
 
   // Circle exit.
-  game_points.exit().remove();
+  game_points.exit().transition().duration(250).style('opacity',0).remove();
 
   //// Brush.
 
