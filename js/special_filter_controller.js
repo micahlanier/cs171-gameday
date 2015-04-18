@@ -126,7 +126,7 @@ SpecialFilterController.prototype.filters = {
     'filters': [
       {
         name: 'Yankees',
-        filter_function: function (d) { return d.opponent == 'Yankees'; }
+        filter_function: function (d) { return d.opponent == 'New York Yankees'; }
       }
     ]
   }
