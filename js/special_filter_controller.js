@@ -32,25 +32,21 @@ SpecialFilterController.prototype.init_filter_buttons = function() {
 
     // Traverse filters.
     var filters = this.filters.general.concat(this.filters[team].filters);
-    for (var f = 0; f < filters.length; f++) {
-      // Get filter.
-      var filter = filters[f];
-      var filter_function = filter.filter_function;
-      // Append button and set up its behavior.
-      team_span.append('button')
+    // Create buttons.
+    var buttons = team_span.selectAll('button').data(filters).enter().append('button')
         .attr({
           'class': 'btn btn-'+btn_class,
-          'type': 'button'
+          'type':  'button',
+          'id':    function (d,i) { return 'special_filter_button-'+team+'-'+i }
         })
-        .text(filter.name)
-        .on('click',function () {
+        .text(function (d) { return d.name; })
+        .on('click',function (d) {
           // Update button states.
           $('span.filter_button_group button').toggleClass('active',false);
           $(this).toggleClass('active', true);
           // Apply filter.
-          $(that.event_handler).trigger('apply_game_selection_filter', [filter_function, 'special_filter_button']);
+          $(that.event_handler).trigger('apply_game_selection_filter', [d.filter_function, 'special_filter_button']);
         });
-    }
   }
 };
 
