@@ -25,6 +25,8 @@ PregameVis = function(_parent_element, _context, _pregame_data) {
 PregameVis.prototype.init_visualization = function() {
   var that = this;
 
+  // For testing purposes, add a status box.
+  this.parent_element.append('span');
 };
 
 /**
@@ -35,6 +37,9 @@ PregameVis.prototype.on_team_change = function(_new_team) {
 
   // Note team change.
   this.team = _new_team;
+
+  // Print team status.
+  this.parent_element.select('span').text('Status box for testing. Selected '+this.team+'.');
 };
 
 /**
@@ -43,4 +48,5 @@ PregameVis.prototype.on_team_change = function(_new_team) {
 PregameVis.prototype.on_game_selection_change = function(_game_ids) {
   var that = this;
 
+  this.parent_element.select('span').text('Status box for testing. Selected '+_game_ids.length+' games.');
 };
