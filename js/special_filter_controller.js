@@ -107,8 +107,8 @@ SpecialFilterController.prototype.filters = {
     'btn_class': 'warning',
     'filters': [
       {
-        name: 'Canadiens',
-        filter_function: function (d) { return d.opponent == 'Canadiens'; }
+        name: 'Montreal',
+        filter_function: function (d) { return d.opponent == 'Montreal'; }
       }
     ]
   },
@@ -117,7 +117,7 @@ SpecialFilterController.prototype.filters = {
     'filters': [
       {
         name: 'Lakers',
-        filter_function: function (d) { return d.opponent == 'LA Lakers'; }
+        filter_function: function (d) { return d.opponent == 'Los Angeles Lakers'; }
       }
     ]
   },
