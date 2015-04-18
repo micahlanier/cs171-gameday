@@ -5,6 +5,17 @@
 /* Fix container size. */
 body div.container { width: 1170px; }
 
+
+/*
+  Other Specific Page Elements
+*/
+
+/* Special filters. */
+div#special_filter_container { margin-top: 20px; }
+div#special_filter_container big { vertical-align: middle; }
+div#special_filter_container button { margin-right: 5px; }
+
+
 /*
   Useful Reusable Styles
 */
@@ -23,3 +34,6 @@ span.viz-tooltip {
   border-radius: 4px;
   cursor: default;
 }
+
+/* Hide an element. */
+.hidden { display: none; }

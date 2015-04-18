@@ -27,8 +27,11 @@
   <link rel="stylesheet" href="styles/pregame_vis.css" />
   <link rel="stylesheet" href="styles/postgame_vis.css" />
 
-  <!-- Main controller and visualization classes. -->
+  <!-- Controller classes. -->
   <script src="js/main.js"></script>
+  <script src="js/special_filter_controller.js"></script>
+
+  <!-- Main controller and visualization classes. -->
   <script src="js/games_vis.js"></script>
   <script src="js/pregame_vis.js"></script>
   <script src="js/postgame_vis.js"></script>
@@ -78,15 +81,9 @@
     </div>
 
     <!-- Additional filters component. -->
-    <p style="padding-top:20px;">
+    <div id="special_filter_container">
       <big>Special games:</big>
-      <button type="button" class="btn btn-danger">Weekends</button>
-      <button type="button" class="btn btn-danger">Weekdays</button>
-      <button type="button" class="btn btn-danger">Early Games</button>
-      <button type="button" class="btn btn-danger">Late Games</button>
-      <button type="button" class="btn btn-danger">Playoffs</button>
-      <button type="button" class="btn btn-danger">Yankees</button>
-    </p>
+    </div>
 
     <hr />
 

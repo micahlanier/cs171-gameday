@@ -257,17 +257,28 @@ GamesVis.prototype.brushed = function() {
     filter_function = function (d) { return (d.timeline_x >= extents[0] && d.timeline_x <= extents[1]); };
   }
   // Call filtering function.
-  this.filter_games(filter_function);
+  $(this.event_handler).trigger('apply_game_selection_filter', [filter_function, 'brush']);
 }
 
 /**
  *
  */
-GamesVis.prototype.filter_games = function (filter) {
+GamesVis.prototype.on_game_selection_filter_application = function (filter, source) {
   // Get game IDs.
   var selected_game_ids = this.games[this.team].filter(filter).map(function (d) { return d.game_id; });
+
+  // Check for empty set of game IDs. If so, show all games.
+  if (!selected_game_ids.length)
+    selected_game_ids = this.games[this.team].map(function (d) { return d.game_id; });
+
   // Trigger event.
   $(this.event_handler).trigger('game_selection_changed', [selected_game_ids]);
+
+  // Clear the brush if it wasn't responsible.
+  if (source != 'brush') {  
+    this.brush.clear();
+    this.svg_brush.call(this.brush)
+  }
 }
 
 

@@ -23,6 +23,8 @@ $(function() {
   }
 
   var init_visualization = function() {
+    //// Initialization
+
     // Create an event handler.
     var event_handler = new Object();
 
@@ -31,17 +33,42 @@ $(function() {
     var pregame_vis  = new PregameVis(d3.select('#vis_pregame'),   that, pregame_data);
     var postgame_vis = new PostgameVis(d3.select('#vis_postgame'), that, postgame_data);
 
+    // Instantiate related objects.
+    var special_filter_controller = new SpecialFilterController(d3.select('#special_filter_container'), that, event_handler);
+
+    //// Event Handler Setup
+
     // Handle team toggling events.
     $(event_handler).bind('team_changed', function(event, team_name) {
       // UI updates.
       $('#games_title span').text('Boston '+that.team_names[team_name]+' Games')
-      // Object updates.
+      // Vis object updates.
       games_vis.on_team_change(team_name);
       pregame_vis.on_team_change(team_name);
       postgame_vis.on_team_change(team_name);
+      // Other updates.
+      special_filter_controller.on_team_change(team_name);
     });
 
-    // Bind triggers to UI buttons.
+    // Handle cases where selection changed by filter function.
+    $(event_handler).bind('apply_game_selection_filter', function(event, game_filter, source) {
+      // Vis object updates.
+      games_vis.on_game_selection_filter_application(game_filter, source);
+      // Other UI updates.
+      special_filter_controller.on_game_selection_filter_application(source);
+    });
+
+    // Handle brush events.
+    $(event_handler).bind('game_selection_changed', function(event, game_ids) {
+      // Vis object updates.
+      games_vis.highlight_games(game_ids);
+      pregame_vis.on_game_selection_change(game_ids);
+      // postgame_vis.on_game_selection_change(game_ids);
+    });
+
+    //// Triggers
+
+    // Bind team changes to UI buttons.
     $('.team_button').change(function() {
       // Unhide UI.
       $('#visualization_container').css('display','block');
@@ -49,13 +76,7 @@ $(function() {
       $(event_handler).trigger('team_changed', this.id);
     })
 
-    // Handle brush events.
-    $(event_handler).bind('game_selection_changed', function(event, game_ids) {
-      // Object updates.
-      games_vis.highlight_games(game_ids);
-      pregame_vis.on_game_selection_change(game_ids);
-      // postgame_vis.on_game_selection_change(game_ids);
-    });
+    //// Miscellanea
 
     // Set up tooltips.
     $('[data-toggle="tooltip"]').tooltip({'placement':'top'});
