@@ -82,14 +82,14 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip({'placement':'top'});
   }
 
-  var data_loaded = function(error, _game_bruins, _game_celtics, _game_sox, _postgame_bruins, _postgame_celtics, _postgame_sox) {
+  var data_loaded = function(error, _game_bruins, _game_celtics, _game_sox, _pregame_bruins, _pregame_celtics, _pregame_sox, _postgame_bruins, _postgame_celtics, _postgame_sox) {
     // Bind datasets. This is verbose because all have to be hard-coded.
     game_data['bruins'] = _game_bruins;
     game_data['celtics'] = _game_celtics;
     game_data['sox'] = _game_sox;
-    // pregame_data['bruins'] = _pregame_bruins;
-    // pregame_data['celtics'] = _pregame_celtics;
-    // pregame_data['sox'] = _pregame_sox;
+    pregame_data['bruins'] = _pregame_bruins;
+    pregame_data['celtics'] = _pregame_celtics;
+    pregame_data['sox'] = _pregame_sox;
     postgame_data['bruins'] = _postgame_bruins;
     postgame_data['celtics'] = _postgame_celtics;
     postgame_data['sox'] = _postgame_sox;
@@ -105,9 +105,9 @@ $(function() {
       .defer(d3.csv, 'data/bruins.csv')
       .defer(d3.csv, 'data/celtics.csv')
       .defer(d3.csv, 'data/sox.csv')
-      // .defer(d3.csv, 'data/bruins_pregame.csv')
-      // .defer(d3.csv, 'data/celtics_pregame.csv')
-      // .defer(d3.csv, 'data/sox_pregame.csv')
+      .defer(d3.csv, 'data/bruins_pregame.csv')
+      .defer(d3.csv, 'data/celtics_pregame.csv')
+      .defer(d3.csv, 'data/sox_pregame.csv')
       .defer(d3.csv, 'data/bruins_postgame.csv')
       .defer(d3.csv, 'data/celtics_postgame.csv')
       .defer(d3.csv, 'data/sox_postgame.csv')
