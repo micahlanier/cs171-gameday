@@ -17,6 +17,25 @@ div#special_filter_container button { margin-right: 5px; }
 
 
 /*
+  General Chart & Axis Styles
+*/
+
+/* Axis label formats. */
+svg g.axis_labels text { font-size: 0.75em; font-family: verdana; text-anchor: middle; /* font-weight: bold; */ }
+svg g.axis_labels text.x_axis_label { dominant-baseline: text-after-edge; }
+svg g.axis_labels text.y_axis_label { dominant-baseline: text-before-edge; }
+
+/* Axis formats. */
+svg g.axis text { font-family: verdana, sans-serif; font-size: .625em; }
+svg g.axis { shape-rendering: crispEdges; }
+svg g.axis path, svg g.axis line { fill: none; stroke: black; shape-rendering: crispEdges; }
+svg g.axis g:first-child line { display: none; }
+
+/* Game start indicator. */
+svg line.game_start { stroke: lightgray; }
+
+
+/*
   Useful Reusable Styles
 */
 
