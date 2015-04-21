@@ -49,7 +49,7 @@ PregameVis = function(_parent_element, _context, _pregame_data) {
     // Time axis.
     hours: d3.svg.axis().scale(this.scales.hours).tickValues([-.5,0,1,2,3,4,5,6]).orient('bottom'),
     // Entry lift axis.
-    lift:  d3.svg.axis().scale(this.scales.lift).tickFormat(d3.format('.1s')).orient('left')
+    lift:  d3.svg.axis().scale(this.scales.lift).orient('left') // .tickFormat(d3.format('.1s'))
   };
 
   // Lines handler.
@@ -213,7 +213,7 @@ PregameVis.prototype.update_visualization = function() {
 
   // Get range of lifts and update scale, axis.
   this.scales.lift.domain(this.lift_extent);
-  // this.axes.lift.scale(this.scales.lift);
+  this.axes.lift.scale(this.scales.lift);
   this.axis_groups.lift
     // .transition().duration(500)
     .call(this.axes.lift);
