@@ -7,13 +7,13 @@ PregameVis = function(_parent_element, _context, _pregame_data) {
   //// Primary settings.
 
   // Core visual settings.
-  this.width  = 500;
-  this.height = 400;
+  this.width  = 550;
+  this.height = 350;
 
   // Margins.
   this.margin = {
     top: 20,
-    right: 30,
+    right: 10,
     bottom: 30,
     left: 50
   };
