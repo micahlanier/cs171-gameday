@@ -43,6 +43,11 @@ PregameVis = function(_parent_element, _context, _pregame_data) {
     lift:  d3.svg.axis().scale(this.scales.lift).tickFormat(d3.format('.1s')).orient('left')
   };
 
+  // Placeholders for later settings.
+  this.game_ids, this.display_data;
+
+  //// Visual setup.
+
   // Initialize the visualization automatically on creation.
   this.init_visualization();
 };
@@ -115,6 +120,11 @@ PregameVis.prototype.on_team_change = function(_new_team) {
 
   // Note team change.
   this.team = _new_team;
+
+  // Get all game IDs and use them for game selection.
+  // This will have the effect of showing the aggregate for all days.
+  var game_ids = d3.set(this.pregame_data[this.team].map(function (d) { return d.game_id; })).values();
+  this.on_game_selection_change(game_ids);
 };
 
 /**
@@ -122,4 +132,32 @@ PregameVis.prototype.on_team_change = function(_new_team) {
  */
 PregameVis.prototype.on_game_selection_change = function(_game_ids) {
   var that = this;
+  
+  // Note new game IDs.
+  this.game_ids = _game_ids;
+
+  // Set up data object.
+  this.wrangle_data();
+
+  // Update visualization.
 };
+
+/**
+ *
+ */
+PregameVis.prototype.wrangle_data = function() {
+  var that = this;
+  
+};
+
+
+
+
+
+
+
+
+
+
+
+
