@@ -8,7 +8,7 @@ PregameVis = function(_parent_element, _context, _pregame_data) {
 
   // Core visual settings.
   this.width  = 500;
-  this.height = 300;
+  this.height = 400;
 
   // Margins.
   this.margin = {
@@ -243,15 +243,3 @@ PregameVis.prototype.update_visualization = function() {
   // Exit selection. Define it just in case but it will not likely be used.
   this.vis_lines.exit().remove();
 };
-
-
-
-
-
-
-
-
-
-
-
-
