@@ -22,8 +22,17 @@ PregameVis = function(_parent_element, _context, _pregame_data) {
 
   // Process inputs.
   this.parent_element = _parent_element;
-  this.pregame_data = _pregame_data;
-  this.context = _context;
+  this.pregame_data   = _pregame_data;
+  this.context        = _context;
+
+  // Placeholders for later settings.
+  this.game_ids, this.game_count, this.display_data, this.lift_extent;
+
+  // Set up info for data processing.
+  this.lift_col_prefix = 'lift_entries_';
+  this.hour_increments = d3.range(-.5,6.25,.25);
+  this.hour_to_index = function (h) { return 4*h+2   };
+  this.index_to_hour = function (i) { return (i-2)/4 };
 
   //// Visual setup.
 
@@ -43,8 +52,11 @@ PregameVis = function(_parent_element, _context, _pregame_data) {
     lift:  d3.svg.axis().scale(this.scales.lift).tickFormat(d3.format('.1s')).orient('left')
   };
 
-  // Placeholders for later settings.
-  this.game_ids, this.display_data;
+  // Lines handler.
+  this.lines = d3.svg.line()
+    .x(function (d,i) { return that.scales.hours(that.index_to_hour(i)) })
+    .y(function (d,i) { return that.scales.lift(d) })
+    .interpolate('basis');
 
   //// Visual setup.
 
@@ -110,6 +122,17 @@ PregameVis.prototype.init_visualization = function() {
       'y2': this.height-this.margin.bottom,
       'class': 'game_start'
     });
+
+  // Append line for 0 point on vertical axis. It will be updated repeatedly depending on lift info.
+  this.zero_lift_line = this.svg.append('line')
+    .attr({
+      'x1': this.scales.hours(6),
+      'x2': this.scales.hours(-.5),
+      'class': 'zero_lift'
+    });
+
+  // Append group for lift lines.
+  this.lift_lines_group = this.svg.append('g').attr('class','lift_lines');
 };
 
 /**
@@ -135,11 +158,13 @@ PregameVis.prototype.on_game_selection_change = function(_game_ids) {
   
   // Note new game IDs.
   this.game_ids = _game_ids;
+  this.game_count = this.game_ids.length;
 
   // Set up data object.
   this.wrangle_data();
 
   // Update visualization.
+  this.update_visualization();
 };
 
 /**
@@ -148,6 +173,75 @@ PregameVis.prototype.on_game_selection_change = function(_game_ids) {
 PregameVis.prototype.wrangle_data = function() {
   var that = this;
   
+  // Empty display dataset and information about lift extent.
+  this.display_data = [];
+  this.lift_extent  = [0,0];
+  
+  // Traverse lines and data to calculate mean lift.
+  for (var l = 0; l < this.context.lines.length; l++) {
+    // Get line, col.
+    var line = this.context.lines[l];
+    var line_col = this.lift_col_prefix + line;
+    // Container for line data.
+    var line_lift = d3.range(this.hour_increments.length).map(function(){return 0});
+    // Traverse data and update.
+    for (var i = 0; i < this.pregame_data[this.team].length; i++) {
+      // Get observation.
+      var datum = this.pregame_data[this.team][i];
+      if (this.game_ids.indexOf(datum['game_id']) > -1) {
+        // Transform hours value to index.
+        var datum_hour_index = this.hour_to_index(datum['hours_until_game_start'])
+        // Add to total and calculate average all at once.
+        line_lift[datum_hour_index] += parseFloat(datum[line_col] / this.game_ids.length);
+        // Update extents.
+        this.lift_extent[0] = Math.min(this.lift_extent[0],line_lift[datum_hour_index]);
+        this.lift_extent[1] = Math.max(this.lift_extent[1],line_lift[datum_hour_index]);
+      }
+    }
+    // Append to display data.
+    this.display_data.push({ 'line': line, 'lift': line_lift });
+  }
+};
+
+/**
+ *
+ */
+PregameVis.prototype.update_visualization = function() {
+  var that = this;
+
+  //// Vertical Scale & Axis
+
+  // Get range of lifts and update scale, axis.
+  this.scales.lift.domain(this.lift_extent);
+  // this.axes.lift.scale(this.scales.lift);
+  this.axis_groups.lift
+    // .transition().duration(500)
+    .call(this.axes.lift);
+
+  //// Zero Lift Indicator
+  var zero_lift_line_y = this.scales.lift(0);
+  this.zero_lift_line
+    // .transition().duration(500)
+    .style('opacity',function (d) { return (that.lift_extent[0] < 0 && that.lift_extent[1] > 0) ? 1 : 0 })
+    .attr({
+      'y1': zero_lift_line_y, 'y2': zero_lift_line_y
+    })
+
+  //// Lines
+  
+  // Bind paths.
+  this.vis_lines = this.lift_lines_group.selectAll('path').data(this.display_data, function (d) { return d.line; });
+
+  // Enter selection. Just control initial styling. Line colors conveniently work as CSS colors. Win!
+  this.vis_lines.enter().append('path').attr('class','vis_line').style('stroke',function (d) { return d.line; });
+
+  // Update selection. Change values!
+  this.vis_lines
+    // .transition().duration(500)
+    .attr('d', function (d) { return that.lines(d.lift); });
+
+  // Exit selection. Define it just in case but it will not likely be used.
+  this.vis_lines.exit().remove();
 };
 
 

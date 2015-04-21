@@ -20,7 +20,10 @@ $(function() {
     'bruins':  '#FDB930',
     'celtics': '#008348',
     'sox':     '#BD3039'
-  }
+  };
+
+  // Lines list for reference.
+  this.lines = ['blue','green','orange','red'];
 
   var init_visualization = function() {
     //// Initialization
