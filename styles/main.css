@@ -38,6 +38,12 @@ svg g.axis g:first-child line { display: none; }
 
 /* Game start, zero lift indicator. */
 svg line.game_start, svg line.zero_lift { stroke: lightgray; }
+svg line.game_end { stroke: blue; }
+.area {
+    fill: lightsteelblue;
+    stroke-width: 0;
+    opacity: 0.5;
+}
 
 
 /*

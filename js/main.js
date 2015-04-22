@@ -21,6 +21,11 @@ $(function() {
     'celtics': '#008348',
     'sox':     '#BD3039'
   };
+  this.game_durations = {
+    'bruins':  2.3,
+    'celtics': 1,
+    'sox':     3
+  };
 
   // Lines list for reference.
   this.lines = ['blue','green','orange','red'];
@@ -66,7 +71,7 @@ $(function() {
       // Vis object updates.
       games_vis.highlight_games(game_ids);
       pregame_vis.on_game_selection_change(game_ids);
-      // postgame_vis.on_game_selection_change(game_ids);
+      postgame_vis.on_game_selection_change(game_ids);
     });
 
     //// Triggers

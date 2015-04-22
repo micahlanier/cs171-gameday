@@ -198,9 +198,11 @@ PregameVis.prototype.wrangle_data = function() {
         this.lift_extent[1] = Math.max(this.lift_extent[1],line_lift[datum_hour_index]);
       }
     }
+
     // Append to display data.
     this.display_data.push({ 'line': line, 'lift': line_lift });
   }
+
 };
 
 /**
