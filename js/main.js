@@ -23,7 +23,7 @@ $(function() {
   };
   this.game_durations = {
     'bruins':  2.3,
-    'celtics': 1,
+    'celtics': 2.25,
     'sox':     3
   };
 
