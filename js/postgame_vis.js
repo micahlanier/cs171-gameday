@@ -18,6 +18,13 @@ PostgameVis = function(_parent_element, _context, _postgame_data) {
     left: 50
   };
 
+  // Venue names.
+  this.venues = {
+    'bruins':  'North Station',
+    'celtics': 'North Station',
+    'sox':     'Kenmore & Hynes',
+  };
+
   //// Execution.
 
   // Process inputs.
@@ -172,6 +179,9 @@ PostgameVis.prototype.on_team_change = function(_new_team) {
   // Get all game IDs and use them for game selection.
   // This will have the effect of showing the aggregate for all days.
   var game_ids = d3.set(this._postgame_data[this.team].map(function (d) { return d.game_id; })).values();
+
+  // Update venue text.
+  $('span#venue_name').text(this.venues[this.team]);
   
   this.on_game_selection_change(game_ids);
 };
