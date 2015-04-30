@@ -116,6 +116,10 @@ SpecialFilterController.prototype.filters = {
     'btn_class': 'success',
     'filters': [
       {
+        name: 'Knicks',
+        filter_function: function (d) { return d.opponent == 'New York'; }
+      },
+      {
         name: 'Lakers',
         filter_function: function (d) { return d.opponent == 'Los Angeles Lakers'; }
       }
@@ -124,6 +128,18 @@ SpecialFilterController.prototype.filters = {
   sox: {
     'btn_class': 'danger',
     'filters': [
+      {
+        name: 'Blue Jays',
+        filter_function: function (d) { return d.opponent == 'Toronto'; }
+      },
+      {
+        name: 'Orioles',
+        filter_function: function (d) { return d.opponent == 'Baltimore'; }
+      },
+      {
+        name: 'Rays',
+        filter_function: function (d) { return d.opponent == 'Tampa Bay'; }
+      },
       {
         name: 'Yankees',
         filter_function: function (d) { return d.opponent == 'New York Yankees'; }
