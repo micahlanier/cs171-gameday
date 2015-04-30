@@ -19,8 +19,8 @@ PregameLineVis = function(_parent_element, _context, _pregame_data) {
   };
 
   // Bar padding.
-  this.bar_padding = .1;
-  this.bar_outer_padding = .1;
+  this.bar_padding = .5;
+  this.bar_outer_padding = .5;
 
   // Useful objects.
   // Here's a formal listing of lines, and a titled version.
@@ -33,8 +33,8 @@ PregameLineVis = function(_parent_element, _context, _pregame_data) {
 
   // Process inputs.
   this.parent_element = _parent_element;
-  this.pregame_line_data   = this.preprocess_data(_pregame_data);
-  this.context        = _context;
+  this.pregame_line_data = this.preprocess_data(_pregame_data);
+  this.context = _context;
 
   // Placeholders for later settings.
   this.game_ids, this.game_count, this.display_data, this.lift_extent;
@@ -44,7 +44,7 @@ PregameLineVis = function(_parent_element, _context, _pregame_data) {
   // Scales for x and y axis.
   this.scales = {
     // Line scale.
-    lines: d3.scale.ordinal().domain(this.lines).rangeBands([this.margin.left,this.width-this.margin.right], this.bar_padding, this.bar_outer_padding),
+    lines: d3.scale.ordinal().domain(this.lines).rangeRoundBands([this.margin.left,this.width-this.margin.right], this.bar_padding, this.bar_outer_padding),
     // Entry lift scale.
     lift:  d3.scale.linear().domain([0,10000]).range([this.height-this.margin.bottom, this.margin.top])
   };
@@ -56,6 +56,9 @@ PregameLineVis = function(_parent_element, _context, _pregame_data) {
     // Entry lift axis.
     lift:  d3.svg.axis().scale(this.scales.lift).orient('left') // .tickFormat(d3.format('.1s'))
   };
+
+  // Formatter for bar labels.
+  this.lift_label_format = d3.format('+,.0f');
 
   //// Visual setup.
 
@@ -80,7 +83,7 @@ PregameLineVis.prototype.preprocess_data = function(pregame_data) {
     for (var g = 0; g < games.length; g++) {
       // Get datum, game ID; add to object if not already there.
       var datum = games[g];
-      var game_id = parseInt(datum['game_id']);
+      var game_id = datum['game_id'];
       if ((game_id in pregame_data_processed[team]) == false) {
         pregame_data_processed[team][game_id] = { game_id: game_id };
         for (var l=0; l < this.lines.length; l++)
@@ -162,8 +165,9 @@ PregameLineVis.prototype.init_visualization = function() {
       'class': 'zero_lift'
     });
 
-  // Append group for lift bars.
+  // Append group for lift bars and labels.
   this.lift_bars_group = this.svg.append('g').attr('class','lift_bars');
+  this.lift_labels_group = this.svg.append('g').attr('class','lift_labels');
 };
 
 /**
@@ -203,10 +207,6 @@ PregameLineVis.prototype.on_game_selection_change = function(_game_ids) {
  */
 PregameLineVis.prototype.wrangle_data = function() {
   var that = this;
-  
-  // Empty display dataset and information about lift extent.
-  this.display_data = [];
-  this.lift_extent  = [0,0];
 
   // Aggregate data in a dictionary first.
   var line_data = {};
@@ -215,8 +215,43 @@ PregameLineVis.prototype.wrangle_data = function() {
     line_data[this.lines[l]] = 0;
   
   // Traverse data and aggregate by line.
+  for (var g=0; g < this.pregame_line_data[this.team].length; g++) {
+    // Get game.
+    var game = this.pregame_line_data[this.team][g];
+    // Only process if game is in list.
+    if (this.game_ids.indexOf(game.game_id) != -1) {
+      // Traverse lines and add lift.
+      for (var l=0; l < this.lines.length; l++)
+        line_data[this.lines[l]] += game[this.lines[l]];
+    }
+  }
   
+  // Convert to list. Empty display dataset first.
+  this.display_data = [];
+  // Calculate means while we're at it. Sums are nice and all, but not very useful.
+  for (line in line_data)
+    this.display_data.push({
+      'line': line,
+      'mean_lift': line_data[line] / this.game_ids.length
+    });
 
+  // Sort.
+  this.display_data.sort(function (a,b) { return a.mean_lift > b.mean_lift; });
+
+  // Calculate lift extents.
+  this.lift_extent = d3.extent(this.display_data.map(function (d) { return d.mean_lift; }));
+  // Ensure anchor at 0.
+  if (this.lift_extent[0] * this.lift_extent[1] > 0)
+    if (this.lift_extent[0] > 0)
+      this.lift_extent[0] = 0;
+    else
+      this.lift_extent[1] = 0;
+
+  // Update scale domains based on magnitude and order for each line.
+  // Lift scale reflects lift extent.
+  this.scales.lift.domain(this.lift_extent);
+  // Lines scale reflects ordering.
+  this.scales.lines.domain(this.display_data.map(function (d) { return d.line; }));
 };
 
 /**
@@ -227,9 +262,59 @@ PregameLineVis.prototype.update_visualization = function() {
 
   //// Vertical Scale & Axis
 
-  // TODO
+  // Get range of lifts and update scale, axis.
+  this.axes.lift.scale(this.scales.lift);
+  this.axis_groups.lift
+    .transition().duration(200)
+    .call(this.axes.lift);
 
-  //// Bars
+  //// Zero Lift Indicator
+
+  var zero_lift_line_y = this.scales.lift(0);
+  this.zero_lift_line
+    .transition().duration(200)
+    .attr({
+      'y1': zero_lift_line_y, 'y2': zero_lift_line_y
+    });
+
+  //// Bars & Labels
   
-  // TODO
+  // Bind rectangles and text.
+  this.vis_bars = this.lift_bars_group.selectAll('rect')
+    .data(this.display_data, function (d) { return d.line; });
+  this.vis_labels = this.lift_labels_group.selectAll('text')
+    .data(this.display_data, function (d) { return d.line; });
+
+  // Enter selection. Just control initial styling. Line colors conveniently work as CSS colors. Win!
+  this.vis_bars.enter().append('rect')
+    .attr({
+      'class': 'vis_bar',
+      'width': this.scales.lines.rangeBand()
+    })
+    .style('fill',function (d) { return d.line; });
+  this.vis_labels.enter().append('text')
+    .style('fill',function (d) { return d.line});
+
+  // Update selection. Change positions, labels, etc.
+  this.vis_bars
+    .transition().duration(200)
+    .attr({
+      'x': function (d) { return that.scales.lines(d.line); },
+      'y': function (d) { return (d.mean_lift > 0) ? that.scales.lift(d.mean_lift) : that.scales.lift(0); },
+      'height': function (d) {
+        if (d.mean_lift > 0)
+          return that.scales.lift(0)-that.scales.lift(d.mean_lift);
+        else
+          return that.scales.lift(d.mean_lift)-that.scales.lift(0);
+      },
+    });
+  this.vis_labels
+    .classed('positive', function (d) { return d.mean_lift >= 0; })
+    .classed('negative', function (d) { return d.mean_lift <  0; })
+    .transition().duration(200)
+    .attr({
+      'x': function (d) { return that.scales.lines(d.line)+that.scales.lines.rangeBand()/2; },
+      'y': function (d) { return that.scales.lift(d.mean_lift) + ((d.mean_lift >= 0) ? -5 : 12); }
+    })
+    .text(function (d) { return that.lift_label_format(d.mean_lift); });
 };

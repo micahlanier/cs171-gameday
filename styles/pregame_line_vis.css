@@ -1,2 +1,7 @@
 /* Axis styling. */
-svg g#pregame_line_axis_lines path { fill: white; }
+svg#pregame_line_vis g#pregame_line_axis_lines path { fill: white; }
+
+/* Bar labels. */
+svg#pregame_line_vis g.lift_labels text { font-family: verdana, sans-serif; font-size: .75em; text-anchor: middle; }
+svg#pregame_line_vis g.lift_labels text.positive {  }
+svg#pregame_line_vis g.lift_labels text.negative {  }
