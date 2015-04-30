@@ -217,17 +217,18 @@ PregameVis.prototype.update_visualization = function() {
   this.scales.lift.domain(this.lift_extent);
   this.axes.lift.scale(this.scales.lift);
   this.axis_groups.lift
-    // .transition().duration(500)
+    .transition().duration(200)
     .call(this.axes.lift);
 
   //// Zero Lift Indicator
+
   var zero_lift_line_y = this.scales.lift(0);
   this.zero_lift_line
-    // .transition().duration(500)
+    .transition().duration(200)
     .style('opacity',function (d) { return (that.lift_extent[0] < 0 && that.lift_extent[1] > 0) ? 1 : 0 })
     .attr({
       'y1': zero_lift_line_y, 'y2': zero_lift_line_y
-    })
+    });
 
   //// Lines
   
@@ -239,7 +240,7 @@ PregameVis.prototype.update_visualization = function() {
 
   // Update selection. Change values!
   this.vis_lines
-    // .transition().duration(500)
+    .transition().duration(200)
     .attr('d', function (d) { return that.lines(d.lift); });
 
   // Exit selection. Define it just in case but it will not likely be used.
