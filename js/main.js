@@ -41,6 +41,7 @@ $(function() {
     var pregame_vis       = new PregameVis(d3.select('#vis_pregame'),          that, pregame_data);
     var postgame_vis      = new PostgameVis(d3.select('#vis_postgame'),        that, postgame_data);
     var pregame_line_vis  = new PregameLineVis(d3.select('#vis_pregame_line'), that, pregame_data);
+    var postgame_hist_vis = new PostGameHistVis(d3.select('#vis_postgame_hist'), that, postgame_data);
 
     // Instantiate related objects.
     var special_filter_controller = new SpecialFilterController(d3.select('#special_filter_container'), that, event_handler);
@@ -56,6 +57,7 @@ $(function() {
       pregame_vis.on_team_change(team_name);
       postgame_vis.on_team_change(team_name);
       pregame_line_vis.on_team_change(team_name);
+      postgame_hist_vis.on_team_change(team_name);
       // Other updates.
       special_filter_controller.on_team_change(team_name);
     });
@@ -75,6 +77,8 @@ $(function() {
       pregame_vis.on_game_selection_change(game_ids);
       postgame_vis.on_game_selection_change(game_ids);
       pregame_line_vis.on_game_selection_change(game_ids);
+      postgame_hist_vis.on_game_selection_change(game_ids);
+      
     });
 
     //// Triggers
