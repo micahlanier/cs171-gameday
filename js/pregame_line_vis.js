@@ -161,7 +161,7 @@ PregameLineVis.prototype.init_visualization = function() {
   this.zero_lift_line = this.svg.append('line')
     .attr({
       'x1': this.margin.left,
-      'x2': this.width-this.margin.right,
+      'x2': this.width-this.margin.right-this.margin.left,
       'class': 'zero_lift'
     });
 

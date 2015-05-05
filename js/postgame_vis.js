@@ -133,7 +133,7 @@ PostgameVis.prototype.init_visualization = function() {
       'transform': 'translate(0,'+(this.margin.top+(this.height-this.margin.top-this.margin.bottom)/2)+')rotate(-90)',
       'class':     'y_axis_label'
     })
-    .text('Entry Lift');
+    .text('Entry Lift per 15 Minutes');
   this.axis_labels.append('text')
     .attr({
       'transform': 'translate('+(this.margin.left+(this.width-this.margin.left-this.margin.right)/2)+','+this.height+')',
@@ -250,7 +250,7 @@ PostgameVis.prototype.update_visualization = function() {
   this.scales.lift.domain(this.lift_extent);
   this.axes.lift.scale(this.scales.lift);
   this.axis_groups.lift
-    // .transition().duration(500)
+    .transition().duration(200)
     .call(this.axes.lift);
 
   //shading
@@ -262,7 +262,7 @@ PostgameVis.prototype.update_visualization = function() {
 
   // Update selection. Change values!
   this.shading_lines
-    // .transition().duration(500)
+    .transition().duration(200)
     .attr('d', function (d) { return that.area(d.lift); });
 
   // Exit selection. Define it just in case but it will not likely be used.
@@ -272,7 +272,7 @@ PostgameVis.prototype.update_visualization = function() {
   //// Zero Lift Indicator
   var zero_lift_line_y = this.scales.lift(0);
   this.zero_lift_line
-    // .transition().duration(500)
+    .transition().duration(200)
     .style('opacity',function (d) { return (that.lift_extent[0] < 0 && that.lift_extent[1] > 0) ? 1 : 0 })
     .attr({
       'y1': zero_lift_line_y, 'y2': zero_lift_line_y
