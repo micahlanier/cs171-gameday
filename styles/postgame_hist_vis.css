@@ -1,0 +1,7 @@
+/* Axis styling. */
+svg#postgame_hist_vis g#postgame_hist_axis_meanlift path { fill: white; }
+
+/* Bar labels. */
+svg#postgame_hist_vis g.lift_labels text { font-family: verdana, sans-serif; font-size: .75em; text-anchor: middle; }
+svg#postgame_hist_vis g.lift_labels text.positive {  }
+svg#postgame_hist_vis g.lift_labels text.negative { font-size: 0em; }

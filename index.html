@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+  <!-- Basic page setup. -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+
+  <!-- Page title. -->
+  <title>CS 171: MBTA Gamedays</title>
+
+  <!-- D3 and jQuery. -->
+  <script type="text/javascript" src="libs/jquery/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="libs/d3/d3.min.js"></script>
+  <script type="text/javascript" src="libs/d3/queue.v1.min.js"></script>
+
+  <!-- Boostrap components. -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" />
+  <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- Styles. -->
+  <link rel="stylesheet" href="styles/main.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+  <!-- Visualization styles. -->
+  <link rel="stylesheet" href="styles/games_vis.css" />
+  <link rel="stylesheet" href="styles/pregame_vis.css" />
+  <link rel="stylesheet" href="styles/postgame_vis.css" />
+  <link rel="stylesheet" href="styles/pregame_line_vis.css" />
+  <link rel="stylesheet" href="styles/postgame_hist_vis.css" />
+
+  <!-- Controller classes. -->
+  <script src="js/main.js"></script>
+  <script src="js/special_filter_controller.js"></script>
+
+  <!-- Main controller and visualization classes. -->
+  <script src="js/games_vis.js"></script>
+  <script src="js/pregame_vis.js"></script>
+  <script src="js/postgame_vis.js"></script>
+  <script src="js/pregame_line_vis.js"></script>
+  <script src="js/postgame_hist_vis.js"></script>
+
+  <!-- IE fixes. -->
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+<!-- Main page container. -->
+<div class="container">
+  <!-- Header with information. -->
+  <div class="header clearfix">
+    <h1>MBTA Gameday</h1>
+  </div>
+
+  <p><big>The MBTA facilitates 1.3 million trips in the Boston area on a typical weekday, and sees large spikes in demand during sporting events and other games. A solid understanding of these spikes is essential for proper accommodation of large crowds. Select a team and sets of games below to see how <span class="viz-tooltip" data-toggle="tooltip" data-original-title="Counts of swipes from riders who enter each station, available in 15-minute intervals.">station entries</span> change around game time. Entry <span class="viz-tooltip" data-toggle="tooltip" data-original-title="The difference between ridership before/after games and ridership expected at the same time and day of the week without a game.">lift</span> describes the boost that we might attribute to a game.</big></p>
+
+  <hr />
+
+  <!-- Team selection component. -->
+  <div class="btn-group btn-group-justified" data-toggle="buttons">
+    <label class="btn btn-lg btn-warning">
+      <input type="radio" class="team_button" name="team" id="bruins" />Bruins
+    </label>
+    <label class="btn btn-lg btn-success">
+      <input type="radio" class="team_button" name="team" id="celtics" />Celtics
+    </label>
+    <label class="btn btn-lg btn-danger">
+      <input type="radio" class="team_button" name="team" id="sox" />Red Sox
+    </label>
+  </div>
+
+  <!-- Entire visualization container. Must be unhidden after the user takes an action. -->
+  <div id="visualization_container" style="display: none">
+
+    <!-- Timeline component. -->
+    <h2 id="games_title"><span>Games</span> <small>Select a game range or use the buttons below. Lower games took place later in the day.</small></h2>
+    <div class="row">
+      <div id="vis_games" class="col-md-12"></div>
+    </div>
+
+    <!-- Additional filters component. -->
+    <div id="special_filter_container">
+      <big>Special games:</big>
+    </div>
+
+    <hr />
+
+    <!-- Container for two primary subplots. -->
+    <div class="row">
+
+      <!-- Pregame entries container. -->
+      <div class="col-md-6">
+        <h2>Pregame Line Traffic Over Time</h2>
+        <div id="vis_pregame"></div>
+      </div>
+
+      <!-- Postgame entries container. -->
+      <div class="col-md-6">
+        <h2>Postgame Traffic at <span id="venue_name">Venue</span></h2>
+        <div id="vis_postgame"></div>
+      </div>
+
+    </div>
+
+    <!-- Secondary subplots. -->
+    <div class="row">
+
+      <!-- Pregame aggregate entries by line. -->
+      <div class="col-md-6">
+        <h2>Aggregate Pregame Traffic by Line</h2>
+        <div id="vis_pregame_line"></div>
+      </div>
+
+      <!-- Postgame histogram by game -->
+      <div class="col-md-6">
+        <h2>Postgame Traffic by Game</h2>
+        <div id="vis_postgame_hist"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <hr />
+
+  <div class="row"><div class="col-md-12">
+    <h2>More Info</h2>
+    <div style="text-align: center">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/U9h5IKw5K9w?rel=0" frameborder="0" allowfullscreen></iframe><br />
+      <a href="https://github.com/micahlanier/cs171-gameday/blob/master/Process_Book.pdf">View Process Book</a>
+    </div>
+  </div></div>
+
+</div>
+
+</body>
+</html>
