@@ -152,7 +152,7 @@ PostGameHistVis.prototype.init_visualization = function() {
       'transform': 'translate('+(this.margin.left+(this.width-this.margin.left-this.margin.right)/2)+','+this.height+')',
       'class':     'x_axis_label'
     })
-    .text('Mean Entry Lift');
+    .text('Mean Entry Lift per 15 Minutes');
 
 
   // Append group for lift bars and labels.

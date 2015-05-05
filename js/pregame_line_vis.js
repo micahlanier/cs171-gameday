@@ -155,7 +155,7 @@ PregameLineVis.prototype.init_visualization = function() {
       'transform': 'translate(0,'+(this.margin.top+(this.height-this.margin.top-this.margin.bottom)/2)+')rotate(-90)',
       'class':     'y_axis_label'
     })
-    .text('Mean Entry Lift');
+    .text('Mean Entry Lift per 15 Minutes');
 
   // Append line for 0 point on vertical axis. It will be updated repeatedly depending on lift info.
   this.zero_lift_line = this.svg.append('line')
