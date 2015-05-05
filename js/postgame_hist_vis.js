@@ -146,7 +146,7 @@ PostGameHistVis.prototype.init_visualization = function() {
       'transform': 'translate(0,'+(this.margin.top+(this.height-this.margin.top-this.margin.bottom)/2)+')rotate(-90)',
       'class':     'y_axis_label'
     })
-    .text('Frequency');
+    .text('# Games');
     this.axis_labels.append('text')
     .attr({
       'transform': 'translate('+(this.margin.left+(this.width-this.margin.left-this.margin.right)/2)+','+this.height+')',
