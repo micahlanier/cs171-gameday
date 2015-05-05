@@ -3,7 +3,7 @@
 */
 
 /* Fix container size. */
-body div.container { width: 1170px; }
+body div.container { width: 1170px; margin-bottom: 1em; }
 
 
 /*
